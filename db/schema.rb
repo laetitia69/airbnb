@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_07_26_151856) do
+ActiveRecord::Schema.define(version: 2018_07_26_125815) do
 
   create_table "cities", force: :cascade do |t|
     t.string "city_name"
@@ -20,27 +20,29 @@ ActiveRecord::Schema.define(version: 2018_07_26_151856) do
 
   create_table "dogs", force: :cascade do |t|
     t.string "name"
-    t.string "race"
+    t.integer "city_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "city_id"
     t.index ["city_id"], name: "index_dogs_on_city_id"
-  end
-
-  create_table "dogs_dogsitters", id: false, force: :cascade do |t|
-    t.integer "dog_id", null: false
-    t.integer "dogsitter_id", null: false
-    t.index ["dog_id", "dogsitter_id"], name: "index_dogs_dogsitters_on_dog_id_and_dogsitter_id"
-    t.index ["dogsitter_id", "dog_id"], name: "index_dogs_dogsitters_on_dogsitter_id_and_dog_id"
   end
 
   create_table "dogsitters", force: :cascade do |t|
     t.string "first_name"
     t.string "last_name"
+    t.integer "city_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "city_id"
     t.index ["city_id"], name: "index_dogsitters_on_city_id"
+  end
+
+  create_table "strolls", force: :cascade do |t|
+    t.datetime "date"
+    t.integer "dogsitter_id"
+    t.integer "dog_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["dog_id"], name: "index_strolls_on_dog_id"
+    t.index ["dogsitter_id"], name: "index_strolls_on_dogsitter_id"
   end
 
 end

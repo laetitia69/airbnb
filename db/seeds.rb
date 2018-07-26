@@ -1,15 +1,23 @@
 require 'faker'
-# This file should contain all the record creation needed to seed the database with its default values.
-# The data can then be loaded with the rails db:seed command (or created alongside the database with db:setup).
-#
-# Examples:
-#
-#   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
-#   Character.create(name: 'Luke', movie: movies.first)
 
 10.times do
-	dog = Dog.create(name: Faker::Dog.name, race: Faker::Dog.breed, city_id: rand(1..10)) #10fakes dogs
-	dogsitter = Dogsitter.create(first_name: Faker::Name.first_name, last_name: Faker::Name.last_name, city_id: rand(1..10))#10 fakes dogsitters
-	dog.dogsitters << dogsitter#remplis les liaisons
-	city = City.create(city_name: Faker::Demographic.demonym)
+  #10 fakes city
+  city = City.create(city_name: Faker::Pokemon.location)
+
+  #10 fake dogsitter
+  dogsitter = Dogsitter.create(
+    first_name: Faker::Name.first_name,
+    last_name: Faker::Name.last_name,
+    city_id: rand((City.first.id)..(City.last.id)))
+
+  #10 fakes dog
+  dog = Dog.create(
+    name: Faker::Dog.name,
+    city_id: rand((City.first.id)..(City.last.id)))
+
+  #10 fakes stroll
+  stroll = Stroll.create(
+      date: Faker::Date.forward(365).to_datetime,
+      dogsitter_id: rand((Dogsitter.first.id)..(Dogsitter.last.id)),
+      dog_id: rand((Dog.first.id)..(Dog.last.id)))
 end
